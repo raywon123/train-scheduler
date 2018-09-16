@@ -12,17 +12,62 @@
 */
 
 body {
-  /* Typography */
-  font-size: 18px;
-  line-height: 27px;
-  /* Visual */
-  background-color: #ccc;
+  font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+  font-size: 20px;
+  line-height: 24px;
+  background-image: url("../images/Harry-Potter-Train-in-Scotland.jpg");
+  background-repeat: no-repeat;
+  background-color: white;
+  background-size: cover;
+  opacity: 0.9;
+  size: 960px;
 }
 
 /*
   The width of the wrapper will be 1024px
   at browser widths above 768px
 */
+
+.container-head {
+  top: 0;
+  left: 0;
+  background-color: white ;
+  width: 100%;
+  padding-bottom: 10px;
+}
+
+.container-head2 {
+  height: 15px;
+  background-color: rgb(241, 223, 119);
+}
+.header-img {
+  width: 240px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.header-img2 {
+  width: 220px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.row {
+  margin-top: 20px;
+}
+
+.card-header {
+  background-color: rgb(241, 223, 119);
+}
+
+/* change border glow to red 
+*/
+.form-control:focus {
+  border-color: #FF0000;
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(255, 0, 0, 0.6);
+}
 
 .wrapper {
   /* Box-model */
