@@ -52,6 +52,19 @@ body {
   display: block;
   margin-left: auto;
   margin-right: auto;
+  margin-bottom: 15px;
+}
+
+.header-table td {
+  padding-left: 20px;
+  font-size: 18px;
+  line-height: 20px;
+  color: rgb(189, 65, 65);
+  
+}
+
+thead th {
+  color: rgb(189, 65, 65);
 }
 
 .row {
@@ -68,6 +81,7 @@ body {
   border-color: #FF0000;
   box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(255, 0, 0, 0.6);
 }
+
 
 .wrapper {
   /* Box-model */

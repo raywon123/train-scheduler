@@ -13,13 +13,27 @@
     <!-- Your CSS -->
     <link rel="stylesheet" type="text/css" href="assets/css/style.css">
 
-    <title>Train Scheduler</title>
+    <title>Hogwarts Express</title>
 </head>
 
 <body>
     <div class="container-head">
         <img class="header-img" src="assets/images/harry-potter.jpg">
         <img class="header-img2" src="assets/images/hogwarts_express.png">
+        <table class="header-table" style="width:100%">
+            <tr>
+                <td>Hogsmeade</td>
+                <td>King's Cross Station</td>
+                <td>Diagon Alley</td>
+                <td>Forest of Dean</td>
+            </tr>
+            <tr>
+                <td>Ministry of Magic</td>
+                <td>St. Mungo's Hospital</td>
+                <td>The Surrey Zoo</td>
+                <td>Godric's Hollow</td>
+            </tr>
+        </table>
 
     </div>
     <div class="container-head2"></div>
@@ -40,8 +54,33 @@
                         Current Train Schedule
                     </div>
                     <div class="card-body">
-                        <p class="card-subtitle mb-2 text-muted">Train Name  Destination Frequency Next Arrival Minutes Away </p>
-                        <p class="card-text"></p>
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Train Name</th>
+                                    <th scope="col">Desintation</th>
+                                    <th scope="col">Frequency (min)</th>
+                                    <th scope="col">Next Arrival</th>
+                                    <th scope="col">Minutes Away</th>
+                                </tr>
+                            </thead>
+                            <tbody class="display-trains">
+                            <tr>
+                                <td>Hogwarts Express</td>
+                                <td>Hogsmeade</td>
+                                <td>25</td>
+                                <td>05:35 PM</td>
+                                <td>10</td>
+                            </tr>
+                            <tr>
+                                <td>Hogwarts Express</td>
+                                <td>Hogsmeade</td>
+                                <td>25</td>
+                                <td>05:35 PM</td>
+                                <td>10</td>
+                            </tr>
+                           </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
