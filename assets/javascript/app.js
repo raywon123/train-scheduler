@@ -1,11 +1,6 @@
 
 $(document).ready(function () {
 
-    let name = "Scottland Regular";
-    let location = "Edinburgh";
-    let firstTrainTime = "6:08";
-    let frequency = "35";
-
     // array to hold train objects
     let trains = [];
 
@@ -95,7 +90,7 @@ $(document).ready(function () {
 
         // reset the display area.
         trainRow.empty();
-        
+
         for (let i = 0; i < trains.length; i++) {
 
             // use function to calcualte Next Train Arriaval Time
@@ -129,9 +124,6 @@ $(document).ready(function () {
 
     }
 
-    // --- main program
-
-    display();
 
     // handling click submit button
     $(".add-train").on("click", function (event) {
@@ -139,11 +131,10 @@ $(document).ready(function () {
         event.preventDefault();
 
         // getting input values
-        name = $(".name-input").val().trim();
-        location = $(".location-input").val().trim();
-        firstTrainTime = $(".time-input").val().trim();
-        frequency = $(".freq-input").val().trim();
-
+        let name = $(".name-input").val().trim();
+        let location = $(".location-input").val().trim();
+        let firstTrainTime = $(".time-input").val().trim();
+        let frequency = $(".freq-input").val().trim();
 
         // Console log each of the user inputs to confirm we are receiving them
         console.log(name);
@@ -151,11 +142,22 @@ $(document).ready(function () {
         console.log(firstTrainTime);
         console.log(frequency);
 
+
+        // store the new train info into the trains array
+        let newTrain = new Train(name, location, firstTrainTime, frequency);
+        trains.push(newTrain);
+        console.log(trains);
+
         // Display function will
         // - Use function to calcualte Next Train Arriaval Time
         // - Output all of the new information into the relevant HTML sections
         display();
 
     });
+
+    // --- main program
+
+    display();
+
 
 });
