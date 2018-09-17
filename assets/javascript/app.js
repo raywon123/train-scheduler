@@ -1,4 +1,18 @@
+
 $(document).ready(function () {
+
+    // Initialize Firebase
+    var config = {
+        apiKey: "AIzaSyB0CklR3O_tqzDeqEdh3Jke_PYdb45huOo",
+        authDomain: "mytrain-d87bc.firebaseapp.com",
+        databaseURL: "https://mytrain-d87bc.firebaseio.com",
+        projectId: "mytrain-d87bc",
+        storageBucket: "mytrain-d87bc.appspot.com",
+        messagingSenderId: "507538949490"
+    };
+    firebase.initializeApp(config);
+
+
 
     // This function remove element from an array
     function removeElement(array, element) {

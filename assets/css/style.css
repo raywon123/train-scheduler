@@ -72,7 +72,10 @@ thead th {
 }
 
 .card-header {
-  background-color: rgb(241, 223, 119);
+  /* background-color: rgb(241, 223, 119); */
+
+  background-color: rgb(181, 15, 15);
+  color: rgb(241, 223, 119);
 }
 
 /* change border glow to red 
