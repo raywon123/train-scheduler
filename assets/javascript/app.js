@@ -1,6 +1,16 @@
 
 $(document).ready(function () {
 
+    let name = "Scottland Regular";
+    let location = "Edinburgh";
+    let firstTrainTime = "6:08";
+    let frequency = "35";
+    let TrainTimes = [];
+
+
+    // refresh the display section every 30 second
+    intervalId = setInterval(display, 30000);
+
     // Initialize Firebase
     var config = {
         apiKey: "AIzaSyB0CklR3O_tqzDeqEdh3Jke_PYdb45huOo",
@@ -10,57 +20,98 @@ $(document).ready(function () {
         storageBucket: "mytrain-d87bc.appspot.com",
         messagingSenderId: "507538949490"
     };
+
     firebase.initializeApp(config);
+    let database = firebase.database();
 
 
+    // function: calculate the Arrival Time and Minute Until Train
+    // returns in an array
+    function calculate(firstTime, tFrequency) {
 
-    // This function remove element from an array
-    function removeElement(array, element) {
-        let index = array.indexOf(element);
-        if (index > -1) {
-            array.splice(index, 1);
-        }
+        // array to store the both Time: MUT and AT  
+        let times = [];
+
+     
+        var firstTimeConverted = moment(firstTime, "HH:mm");
+        console.log(firstTimeConverted);
+    
+        // Current Time
+        var currentTime = moment();
+        console.log("CURRENT TIME: " + moment(currentTime).format("hh:mm"));
+      
+    
+        // Difference between the times
+        var diffTime = moment().diff(moment(firstTimeConverted), "minutes");
+        console.log("DIFFERENCE IN TIME: " + diffTime);
+    
+        // Time apart (remainder)
+        var tRemainder = diffTime % tFrequency;
+        console.log(tRemainder);
+    
+        // Minute Until Train
+        var tMinutesTillTrain = tFrequency - tRemainder;
+        console.log("MINUTES TILL TRAIN: " + tMinutesTillTrain);
+       
+
+        // Next Train
+        var nextTrain = moment().add(tMinutesTillTrain, "minutes");
+        console.log("ARRIVAL TIME: " + moment(nextTrain).format("hh:mm"));
+
+        // save to the times array
+        // - format LT is hh:mm and with AM/PM
+        // - format LTS is adding seconds to LT
+        times.push(moment(nextTrain).format("LT"));
+        // times.push(moment(nextTrain).format("LTS"));
+        times.push(tMinutesTillTrain);
+
+        return times;
+        
+    }
+ 
+    // display the train schedules onto HTML
+    function display() {
+
+        $(".name-display").text(name);
+        $(".location-display").text(location);
+        $(".firstTime-display").text(firstTrainTime);
+        $(".frequency-display").text(frequency);
+
+        // use function to calcualte Next Train Arriaval Time
+        TrainTimes = calculate(firstTrainTime, frequency);
+
+        $(".nextTrain-display").text(TrainTimes[0]);
+        $(".timeleft-display").text(TrainTimes[1]);
+
     }
 
-    // This function counts element occurances in an array
-    function countElement(array, element) {
-        let counts = {};
-        for (var i = 0; i < array.length; i++) {
-            if (!counts.hasOwnProperty(array[i])) {
-                counts[array[i]] = 1;
-            }
-            else {
-                counts[array[i]]++;
-            }
-        }
-        return counts[element];
-    }
+    // --- main program
 
-    // This function finds index of duplicate elements in an array
-    function findDuplicateElement(array, element) {
-        let duplicates = {};
-        for (var i = 0; i < array.length; i++) {
-            if (duplicates.hasOwnProperty(array[i])) {
-                duplicates[array[i]].push(i);
-            }
-            else if (array.lastIndexOf(array[i]) !== i) {
-                duplicates[array[i]] = [i];
-            }
-        }
-        return duplicates[element];
-    }
+    display();
 
-    // -- main program
+    // handling click submit button
+    $(".add-train").on("click", function (event) {
+        // Don't refresh the page!
+        event.preventDefault();
 
-    let firstNumber = 0;
+        // getting input values
+        name = $(".name-input").val().trim();
+        location = $(".location-input").val().trim();
+        firstTrainTime = $(".time-input").val().trim();
+        frequency = $(".freq-input").val().trim();
 
-    $(".number").on("click", function () {
-        console.log($(this).val());
-        firstNumber += $(this).val();
-        $("#first-number").text(firstNumber);
-        console.log(firstNumber);
-        let result = firstNumber + 2;  // '2 '+ '2' = 22  string addition
-        console.log("result=" + result);
+
+        // Console log each of the user inputs to confirm we are receiving them
+        console.log(name);
+        console.log(location);
+        console.log(firstTrainTime);
+        console.log(frequency);
+
+        // Display function will
+        // - Use function to calcualte Next Train Arriaval Time
+        // - Output all of the new information into the relevant HTML sections
+        display();
+
     });
 
 });

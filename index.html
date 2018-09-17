@@ -67,22 +67,36 @@
                                 </tr>
                             </thead>
                             <tbody class="display-trains">
-                            <tr>
-                                <td>Hogwarts Express</td>
-                                <td>Hogsmeade</td>
-                                <td>25</td>
-                                <td>05:35 PM</td>
-                                <td>10</td>
-                            </tr>
-                            <tr>
-                                <td>Hogwarts Express</td>
-                                <td>King's Cross Station</td>
-                                <td>45</td>
-                                <td>07:35 PM</td>
-                                <td>45</td>
-                            </tr>
-                           </tbody>
+                                <tr>
+                                    <td>Hogwarts Express</td>
+                                    <td>Hogsmeade</td>
+                                    <td>25</td>
+                                    <td>05:35 PM</td>
+                                    <td>10</td>
+                                </tr>
+                                <tr>
+                                    <td>London Express</td>
+                                    <td>King's Cross Station</td>
+                                    <td>45</td>
+                                    <td>07:35 PM</td>
+                                    <td>45</td>
+                                </tr>
+                                <tr>
+                                    <td class="name-display"></td>
+                                    <td class="location-display"></td>
+                                    <td class="frequency-display"></td>
+                                    <td class="nextTrain-display"></td>
+                                    <td class="timeleft-display"></td>
+                                </tr>
+                            </tbody>
                         </table>
+                        <p>Inputs:</p>
+                        <p class="name-display"></p>
+                        <p class="location-display"></p>
+                        <p class="firstTime-display"></p>
+                        <p class="frequency-display"></p>
+                        <p class="timeleft-display"></p>
+                        <p class="nextTrain-display"></p>
                     </div>
                 </div>
             </div>
@@ -100,21 +114,21 @@
                         <form role="form">
                             <div class="form-group">
                                 <label for="name-input">Train Name:</label>
-                                <input class="form-control" id="name-input" type="text">
+                                <input class="form-control name-input" type="text">
                             </div>
                             <div class="form-group">
                                 <label for="name-input">Destination</label>
-                                <input class="form-control" id="email-input" type="text">
+                                <input class="form-control location-input" type="text">
                             </div>
                             <div class="form-group">
-                                <label for="time-input">First Train Time</label>
-                                <input class="form-control" id="time-input" type="number">
+                                <label for="time-input">First Train Time (HH:mm - military time)</label>
+                                <input class="form-control time-input" type="text">
                             </div>
                             <div class="form-group">
-                                <label for="time-input">Frequency</label>
-                                <input class="form-control" id="time-input" type="number">
+                                <label for="time-input">Frequency (Minutes)</label>
+                                <input class="form-control freq-input" type="number">
                             </div>
-                            <button class="btn btn-warning" id="add-user" type="submit">Submit</button>
+                            <button class="btn btn-warning add-train" type="submit">Submit</button>
                         </form>
                     </div>
                 </div>
