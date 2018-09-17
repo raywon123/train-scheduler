@@ -5,8 +5,26 @@ $(document).ready(function () {
     let location = "Edinburgh";
     let firstTrainTime = "6:08";
     let frequency = "35";
-    let TrainTimes = [];
 
+    // array to hold train objects
+    let trains = [];
+
+    // Train Object
+    function Train(name, location, firstTrainTime, frequency) {
+        this.name = name;
+        this.location = location;
+        this.firstTrainTime = firstTrainTime;
+        this.frequency = frequency;
+    }
+
+    // For testing
+    // - initial trains for testing
+    // - pushing into array
+    let train1 = new Train("Hogwarts Express", "Hogsmeade", "5:35", "60");
+    let train2 = new Train("London Express", "King's Cross Station", "6:08", "70");
+    let train3 = new Train("Scottland Regular", "Edinburgh", "6:25", "35");
+
+    trains = [train1, train2, train3];
 
     // refresh the display section every 30 second
     intervalId = setInterval(display, 30000);
@@ -32,27 +50,27 @@ $(document).ready(function () {
         // array to store the both Time: MUT and AT  
         let times = [];
 
-     
+
         var firstTimeConverted = moment(firstTime, "HH:mm");
         console.log(firstTimeConverted);
-    
+
         // Current Time
         var currentTime = moment();
         console.log("CURRENT TIME: " + moment(currentTime).format("hh:mm"));
-      
-    
+
+
         // Difference between the times
         var diffTime = moment().diff(moment(firstTimeConverted), "minutes");
         console.log("DIFFERENCE IN TIME: " + diffTime);
-    
+
         // Time apart (remainder)
         var tRemainder = diffTime % tFrequency;
         console.log(tRemainder);
-    
+
         // Minute Until Train
         var tMinutesTillTrain = tFrequency - tRemainder;
         console.log("MINUTES TILL TRAIN: " + tMinutesTillTrain);
-       
+
 
         // Next Train
         var nextTrain = moment().add(tMinutesTillTrain, "minutes");
@@ -66,22 +84,48 @@ $(document).ready(function () {
         times.push(tMinutesTillTrain);
 
         return times;
-        
+
     }
- 
+
     // display the train schedules onto HTML
     function display() {
 
-        $(".name-display").text(name);
-        $(".location-display").text(location);
-        $(".firstTime-display").text(firstTrainTime);
-        $(".frequency-display").text(frequency);
+        // getting the HTML element
+        let trainRow = $(".display-trains");
 
-        // use function to calcualte Next Train Arriaval Time
-        TrainTimes = calculate(firstTrainTime, frequency);
+        // reset the display area.
+        trainRow.empty();
+        
+        for (let i = 0; i < trains.length; i++) {
 
-        $(".nextTrain-display").text(TrainTimes[0]);
-        $(".timeleft-display").text(TrainTimes[1]);
+            // use function to calcualte Next Train Arriaval Time
+            let trainTimes = calculate(trains[i].firstTrainTime, trains[i].frequency);
+
+            // display onto HTML
+            trainRow.append("<tr><td>" + trains[i].name + "</td>"
+                + "<td>" + trains[i].location + "</td>"
+                + "<td>" + trains[i].frequency + "</td>"
+                + "<td>" + trainTimes[0] + "</td>"
+                + "<td>" + trainTimes[1] + "</td></tr>"
+            );
+
+            // - for testing
+            // trainRow.append("<td>" + trains[i].location + "</td>");
+            // trainRow.append("<td>" + trains[i].firstTrainTime + "</td>");
+            // trainRow.append("<td>" + trains[i].frequency + "</td>");
+            // trainRow.append("<td>" + trainTimes[0] + "</td>");
+            // trainRow.append("<td>" + trainTimes[1] + "</td></tr>");
+
+            // - for testing
+            // TrainTimes = calculate(firstTrainTime, frequency); 
+            // $(".name-display").text(name);
+            // $(".location-display").text(location);
+            // $(".firstTime-display").text(firstTrainTime);
+            // $(".frequency-display").text(frequency);
+            // $(".nextTrain-display").text(TrainTimes[0]);
+            // $(".timeleft-display").text(TrainTimes[1]);
+
+        }
 
     }
 
