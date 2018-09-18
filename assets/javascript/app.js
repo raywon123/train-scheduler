@@ -1,9 +1,23 @@
 
 $(document).ready(function () {
 
+    // Initialize Firebase
+    var config = {
+        apiKey: "AIzaSyB0CklR3O_tqzDeqEdh3Jke_PYdb45huOo",
+        authDomain: "mytrain-d87bc.firebaseapp.com",
+        databaseURL: "https://mytrain-d87bc.firebaseio.com",
+        projectId: "mytrain-d87bc",
+        storageBucket: "mytrain-d87bc.appspot.com",
+        messagingSenderId: "507538949490"
+    };
+
+    firebase.initializeApp(config);
+    let database = firebase.database();
+
     // array to hold train objects
     let trains = [];
 
+    // ----- Non-Firebase Solutions begin -------------
     // Train Object
     function Train(name, location, firstTrainTime, frequency) {
         this.name = name;
@@ -20,23 +34,18 @@ $(document).ready(function () {
     let train3 = new Train("Scottland Regular", "Edinburgh", "6:25", "35");
 
     trains = [train1, train2, train3];
+    console.log(trains);
 
-    // refresh the display section every 30 second
-    intervalId = setInterval(display, 30000);
+    // ----- Non-Firebase Solution Ends -------------
 
-    // Initialize Firebase
-    var config = {
-        apiKey: "AIzaSyB0CklR3O_tqzDeqEdh3Jke_PYdb45huOo",
-        authDomain: "mytrain-d87bc.firebaseapp.com",
-        databaseURL: "https://mytrain-d87bc.firebaseio.com",
-        projectId: "mytrain-d87bc",
-        storageBucket: "mytrain-d87bc.appspot.com",
-        messagingSenderId: "507538949490"
-    };
 
-    firebase.initializeApp(config);
-    let database = firebase.database();
+    // refresh the display section every 60 second
 
+    // -- Non-Firebase Solution
+    // intervalId = setInterval(display, 60000);
+
+    // -- Firebase Solution
+    intervalId = setInterval(displayFirebase, 60000);
 
     // function: calculate the Arrival Time and Minute Until Train
     // returns in an array
@@ -47,29 +56,29 @@ $(document).ready(function () {
 
 
         var firstTimeConverted = moment(firstTime, "HH:mm");
-        console.log(firstTimeConverted);
+        // console.log(firstTimeConverted);
 
         // Current Time
         var currentTime = moment();
-        console.log("CURRENT TIME: " + moment(currentTime).format("hh:mm"));
+        // console.log("CURRENT TIME: " + moment(currentTime).format("hh:mm"));
 
 
         // Difference between the times
         var diffTime = moment().diff(moment(firstTimeConverted), "minutes");
-        console.log("DIFFERENCE IN TIME: " + diffTime);
+        // console.log("DIFFERENCE IN TIME: " + diffTime);
 
         // Time apart (remainder)
         var tRemainder = diffTime % tFrequency;
-        console.log(tRemainder);
+        // console.log(tRemainder);
 
         // Minute Until Train
         var tMinutesTillTrain = tFrequency - tRemainder;
-        console.log("MINUTES TILL TRAIN: " + tMinutesTillTrain);
+        // console.log("MINUTES TILL TRAIN: " + tMinutesTillTrain);
 
 
         // Next Train
         var nextTrain = moment().add(tMinutesTillTrain, "minutes");
-        console.log("ARRIVAL TIME: " + moment(nextTrain).format("hh:mm"));
+        // console.log("ARRIVAL TIME: " + moment(nextTrain).format("hh:mm"));
 
         // save to the times array
         // - format LT is hh:mm and with AM/PM
@@ -82,7 +91,7 @@ $(document).ready(function () {
 
     }
 
-    // display the train schedules onto HTML
+    // display the train schedules onto HTML using array (Non-Firebase Solution)
     function display() {
 
         // getting the HTML element
@@ -121,9 +130,38 @@ $(document).ready(function () {
             // $(".timeleft-display").text(TrainTimes[1]);
 
         }
-
     }
 
+    // function to display onto HTML using data from Firebase (Firebase Solution)
+    function displayFirebase() {
+
+        // getting the HTML element
+        let trainRow = $(".display-trains");
+
+        // reset the display area.
+        trainRow.empty();
+
+        // retrieving data from Firebase (it is already in a loop)
+        database.ref('trains/').on('child_added', function (snapshot) {
+            console.log("from_child = " + snapshot.val().name);
+            console.log(snapshot.val());
+            let data = snapshot.val();
+            console.log("---" + data.name);
+
+            // use function to calcualte Next Train Arriaval Time
+            let trainTimes = calculate(data.firstTrainTime, data.frequency);
+
+            // display onto HTML
+            trainRow.append("<tr><td>" + data.name + "</td>"
+                + "<td>" + data.location + "</td>"
+                + "<td>" + data.frequency + "</td>"
+                + "<td>" + trainTimes[0] + "</td>"
+                + "<td>" + trainTimes[1] + "</td></tr>"
+            );
+
+
+        });
+    }
 
     // handling click submit button
     $(".add-train").on("click", function (event) {
@@ -142,22 +180,44 @@ $(document).ready(function () {
         console.log(firstTrainTime);
         console.log(frequency);
 
-
-        // store the new train info into the trains array
+        //-- frequency cannot be 0 - leads to divide by 0 problem
+        if (frequency === '0') {
+            frequency = '1';
+        }
+       
+        // store the new train info into the trains array (Non-Firebase Solution)
         let newTrain = new Train(name, location, firstTrainTime, frequency);
         trains.push(newTrain);
         console.log(trains);
 
+        // store in Firebase (Firebase Solution)
+        database.ref('trains/').push({
+            name: name,
+            location: location,
+            firstTrainTime: firstTrainTime,
+            frequency: frequency
+        });
+
+
         // Display function will
         // - Use function to calcualte Next Train Arriaval Time
         // - Output all of the new information into the relevant HTML sections
-        display();
+
+        //-- non-Firebase Solution
+        // display();
+
+        //-- Firebase Solution
+        displayFirebase();
+
 
     });
 
     // --- main program
 
-    display();
+    //-- non-Firebase Solution
+    // display();
 
+    //-- Firebase Solution
+    displayFirebase();
 
 });
