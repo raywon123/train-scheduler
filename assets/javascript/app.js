@@ -42,10 +42,10 @@ $(document).ready(function () {
     // refresh the display section every 60 second
 
     // -- Non-Firebase Solution
-    // intervalId = setInterval(display, 60000);
+    intervalId = setInterval(display, 60000);
 
     // -- Firebase Solution
-    intervalId = setInterval(displayFirebase, 60000);
+    // intervalId = setInterval(displayFirebase, 60000);
 
     // function: calculate the Arrival Time and Minute Until Train
     // returns in an array
@@ -204,10 +204,10 @@ $(document).ready(function () {
         // - Output all of the new information into the relevant HTML sections
 
         //-- non-Firebase Solution
-        // display();
+        display();
 
         //-- Firebase Solution
-        displayFirebase();
+        // displayFirebase();
 
 
     });
@@ -215,9 +215,9 @@ $(document).ready(function () {
     // --- main program
 
     //-- non-Firebase Solution
-    // display();
+    display();
 
     //-- Firebase Solution
-    displayFirebase();
+    // displayFirebase();
 
 });
